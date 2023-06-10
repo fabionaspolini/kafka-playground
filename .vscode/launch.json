@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "streams",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-streams",
+            "program": "${workspaceFolder}/streams/bin/Debug/net7.0/streams-sample.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/streams",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        }
+    ]
+}
