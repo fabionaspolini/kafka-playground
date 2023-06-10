@@ -10,20 +10,17 @@ Console.WriteLine(".:: Kafka Streams Playground - Worker ::.");
 var streamConfig = new StreamConfig<StringSerDes, StringSerDes>()
 {
     BootstrapServers = "localhost:9092",
-    ApplicationId = "playground-stream-sample-6"
+    ApplicationId = "playground-stream-sample-7",
 };
 
 var streamBuilder = new StreamBuilder();
 var kstream = streamBuilder.Stream<string, string>("playground.transacional.venda");
-var ktable = streamBuilder.Table("playground.cadastros.cliente", InMemory.As<string, string>("teste-store"));
-// kstream.To("playground.analitico.venda");
-kstream
-    .Join(ktable, (v, v1) => $"{v}-{v1}")
-    .To("playground.analitico.venda");
+var ktable = kstream
+    .FlatMapValues(x => x + ",TESTE");
+ktable.To("playground.analitico.venda");
 
 // kstream.Repartition(Repartitioned<string, string>.NumberOfPartitions(3));
 var topology = streamBuilder.Build();
-
 var stream = new KafkaStream(topology, streamConfig);
 Console.CancelKeyPress += (_, _) => stream.Dispose();
 
