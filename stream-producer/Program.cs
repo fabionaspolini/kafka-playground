@@ -12,14 +12,15 @@ producer.Produce("playground.cadastros.cliente", new() { Key = "fábio", Value =
 producer.Produce("playground.cadastros.cliente", new() { Key = "joão", Value = "nome=João,idade=20" });
 producer.Produce("playground.cadastros.cliente", new() { Key = "pedro", Value = "nome=Pedro,idade=15" });
 
-producer.Produce("playground.cadastros.produto", new() { Key = "batata", Value = "nome=Batata,tipo=legume" });
-producer.Produce("playground.cadastros.produto", new() { Key = "banana", Value = "nome=Banana,tipo=fruta" });
-producer.Produce("playground.cadastros.produto", new() { Key = "laranja", Value = "nome=Laranja,tipo=fruta" });
+// producer.Produce("playground.cadastros.produto", new() { Key = "batata", Value = "nome=Batata,tipo=legume" });
+// producer.Produce("playground.cadastros.produto", new() { Key = "banana", Value = "nome=Banana,tipo=fruta" });
+// producer.Produce("playground.cadastros.produto", new() { Key = "laranja", Value = "nome=Laranja,tipo=fruta" });
 
 producer.Produce("playground.transacional.venda", new() { Key="1", Value="fábio,batata" });
 producer.Produce("playground.transacional.venda", new() { Key="1", Value="fábio,laranja" });
 producer.Produce("playground.transacional.venda", new() { Key="2", Value="joão,batata" });
 producer.Produce("playground.transacional.venda", new() { Key="3", Value="pedro,banana" });
+producer.Produce("playground.transacional.venda", new() { Key="3", Value="pedro,batata" });
 
 /*producer.Produce("playground.cadastros.cliente", new() { Key = "fábio", Value = "nome=Fábio,idade=40" });
 producer.Produce("playground.cadastros.cliente", new() { Key = "joão", Value = "nome=João,idade=45" });
