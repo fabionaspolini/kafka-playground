@@ -2,14 +2,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "streams",
+            "name": "stream-producer",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build-streams",
-            "program": "${workspaceFolder}/streams/bin/Debug/net7.0/streams-sample.dll",
+            "preLaunchTask": "build-stream-producer",
+            "program": "${workspaceFolder}/stream-producer/bin/Debug/net7.0/stream-producer.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/streams",
-            "console": "internalConsole",
+            "cwd": "${workspaceFolder}/stream-producer",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        },
+        {
+            "name": "stream-worker",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-stream-worker",
+            "program": "${workspaceFolder}/stream-worker/bin/Debug/net7.0/stream-worker.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/stream-worker",
+            "console": "integratedTerminal",
             "stopAtEntry": false
         }
     ]
