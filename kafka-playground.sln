@@ -3,14 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "stream-producer", "stream-producer\stream-producer.csproj", "{2F64ED81-12EE-42DB-924A-B735241A4715}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "stream-producer", "stream-producer\stream-producer.csproj", "{2F64ED81-12EE-42DB-924A-B735241A4715}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "stream-worker", "stream-worker\stream-worker.csproj", "{7DA0C121-2EEA-4077-826C-4916C654D6A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "stream-worker", "stream-worker\stream-worker.csproj", "{7DA0C121-2EEA-4077-826C-4916C654D6A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-Simple", "01-Simple", "{E51B08DB-CA2E-414E-B12E-1C780C7F11EF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleKafkaProducer", "simple-kafka-producer\SimpleKafkaProducer.csproj", "{B45AE38D-6EB1-469F-A1C2-0F4435C8204E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleKafkaConsumer", "simple-kafka-consumer\SimpleKafkaConsumer.csproj", "{B9757873-A267-44D2-AFF7-8BE552920558}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-Kafka Streams", "02-Kafka Streams", "{A5F9F450-D490-4A1A-AA05-34BE92DC48D5}"
 EndProject
 Global
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -44,5 +49,38 @@ Global
 		{7DA0C121-2EEA-4077-826C-4916C654D6A3}.Release|x64.Build.0 = Release|Any CPU
 		{7DA0C121-2EEA-4077-826C-4916C654D6A3}.Release|x86.ActiveCfg = Release|Any CPU
 		{7DA0C121-2EEA-4077-826C-4916C654D6A3}.Release|x86.Build.0 = Release|Any CPU
+		{B45AE38D-6EB1-469F-A1C2-0F4435C8204E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B45AE38D-6EB1-469F-A1C2-0F4435C8204E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B45AE38D-6EB1-469F-A1C2-0F4435C8204E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B45AE38D-6EB1-469F-A1C2-0F4435C8204E}.Debug|x64.Build.0 = Debug|Any CPU
+		{B45AE38D-6EB1-469F-A1C2-0F4435C8204E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B45AE38D-6EB1-469F-A1C2-0F4435C8204E}.Debug|x86.Build.0 = Debug|Any CPU
+		{B45AE38D-6EB1-469F-A1C2-0F4435C8204E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B45AE38D-6EB1-469F-A1C2-0F4435C8204E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B45AE38D-6EB1-469F-A1C2-0F4435C8204E}.Release|x64.ActiveCfg = Release|Any CPU
+		{B45AE38D-6EB1-469F-A1C2-0F4435C8204E}.Release|x64.Build.0 = Release|Any CPU
+		{B45AE38D-6EB1-469F-A1C2-0F4435C8204E}.Release|x86.ActiveCfg = Release|Any CPU
+		{B45AE38D-6EB1-469F-A1C2-0F4435C8204E}.Release|x86.Build.0 = Release|Any CPU
+		{B9757873-A267-44D2-AFF7-8BE552920558}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9757873-A267-44D2-AFF7-8BE552920558}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9757873-A267-44D2-AFF7-8BE552920558}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B9757873-A267-44D2-AFF7-8BE552920558}.Debug|x64.Build.0 = Debug|Any CPU
+		{B9757873-A267-44D2-AFF7-8BE552920558}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B9757873-A267-44D2-AFF7-8BE552920558}.Debug|x86.Build.0 = Debug|Any CPU
+		{B9757873-A267-44D2-AFF7-8BE552920558}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9757873-A267-44D2-AFF7-8BE552920558}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9757873-A267-44D2-AFF7-8BE552920558}.Release|x64.ActiveCfg = Release|Any CPU
+		{B9757873-A267-44D2-AFF7-8BE552920558}.Release|x64.Build.0 = Release|Any CPU
+		{B9757873-A267-44D2-AFF7-8BE552920558}.Release|x86.ActiveCfg = Release|Any CPU
+		{B9757873-A267-44D2-AFF7-8BE552920558}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2F64ED81-12EE-42DB-924A-B735241A4715} = {A5F9F450-D490-4A1A-AA05-34BE92DC48D5}
+		{7DA0C121-2EEA-4077-826C-4916C654D6A3} = {A5F9F450-D490-4A1A-AA05-34BE92DC48D5}
+		{B45AE38D-6EB1-469F-A1C2-0F4435C8204E} = {E51B08DB-CA2E-414E-B12E-1C780C7F11EF}
+		{B9757873-A267-44D2-AFF7-8BE552920558} = {E51B08DB-CA2E-414E-B12E-1C780C7F11EF}
 	EndGlobalSection
 EndGlobal
