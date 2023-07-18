@@ -1,7 +1,7 @@
 ﻿using Confluent.Kafka;
 using System.Diagnostics;
 
-Console.WriteLine(".:: Kafka Simple Playground - Consumer ::.");
+Console.WriteLine(".:: Kafka Playground - Basic Consumer ::.");
 const string TopicName = "simple-playground";
 
 var cancellationToken = new CancellationTokenSource();

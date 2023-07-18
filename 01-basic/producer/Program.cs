@@ -1,7 +1,7 @@
 ﻿using Confluent.Kafka;
 using Confluent.Kafka.Admin;
 
-Console.WriteLine(".:: Kafka Simple Playground - Producer ::.");
+Console.WriteLine(".:: Kafka Playground - Basic Producer ::.");
 const string TopicName = "simple-playground";
 const int Messages = 10_000_000;
 
@@ -11,7 +11,8 @@ var adminConfig = new AdminClientConfig
     BootstrapServers = "localhost:9092"
 };
 var admin = new AdminClientBuilder(adminConfig).Build();
-//await admin.DeleteTopicsAsync(new[] { TopicName }); Thread.Sleep(2000);
+//await admin.DeleteTopicsAsync(new[] { TopicName });
+//Thread.Sleep(2000);
 var topicMetadata = admin.GetMetadata(TimeSpan.FromSeconds(10));
 if (!topicMetadata.Topics.Any(x => x.Error.Code == ErrorCode.NoError && x.Topic == TopicName))
     await admin.CreateTopicsAsync(new[]
@@ -40,7 +41,6 @@ for (int i = 1; i <= Messages; i++)
         Console.WriteLine($"Flushing {i:N0}...");
         producer.Flush();
     }
-
 }
 
 producer.Flush();
