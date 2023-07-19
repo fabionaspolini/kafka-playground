@@ -24,6 +24,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvroKafkaConsumer", "02-avro\consumer\AvroKafkaConsumer.csproj", "{A6034386-D2F3-4CB4-9B33-4EAACFD18355}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvroKafkaProducer", "02-avro\producer\AvroKafkaProducer.csproj", "{78EA79B2-EBF7-4AA3-97FF-1AFCCA12980B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "avros", "avros", "{5A26658D-1207-44A6-9609-0B326205B63C}"
+	ProjectSection(SolutionItems) = preProject
+		02-avro\avros\Pessoa.avsc = 02-avro\avros\Pessoa.avsc
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +55,14 @@ Global
 		{4AE28D37-3AC0-4F75-B76F-E04506C9D5C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AE28D37-3AC0-4F75-B76F-E04506C9D5C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AE28D37-3AC0-4F75-B76F-E04506C9D5C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6034386-D2F3-4CB4-9B33-4EAACFD18355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6034386-D2F3-4CB4-9B33-4EAACFD18355}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6034386-D2F3-4CB4-9B33-4EAACFD18355}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6034386-D2F3-4CB4-9B33-4EAACFD18355}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78EA79B2-EBF7-4AA3-97FF-1AFCCA12980B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78EA79B2-EBF7-4AA3-97FF-1AFCCA12980B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78EA79B2-EBF7-4AA3-97FF-1AFCCA12980B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78EA79B2-EBF7-4AA3-97FF-1AFCCA12980B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +72,9 @@ Global
 		{652009DF-64BC-4776-B621-8A8C71A7AEB4} = {E51B08DB-CA2E-414E-B12E-1C780C7F11EF}
 		{5AE6F101-D7EE-4839-9768-EFEC48F49C15} = {332C7320-CD27-43E3-8272-AD0E51FE8169}
 		{4AE28D37-3AC0-4F75-B76F-E04506C9D5C8} = {332C7320-CD27-43E3-8272-AD0E51FE8169}
+		{A6034386-D2F3-4CB4-9B33-4EAACFD18355} = {F9A2224E-7275-46CC-B205-EB6E8A359F81}
+		{78EA79B2-EBF7-4AA3-97FF-1AFCCA12980B} = {F9A2224E-7275-46CC-B205-EB6E8A359F81}
+		{5A26658D-1207-44A6-9609-0B326205B63C} = {F9A2224E-7275-46CC-B205-EB6E8A359F81}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2BE20869-C639-4511-9685-26812E78F1FC}

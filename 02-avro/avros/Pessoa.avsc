@@ -1,0 +1,9 @@
+{
+  "namespace": "playground.kafka",
+  "name": "Pessoa",
+  "type": "record",
+  "fields": [
+    { "name": "id", "type": "string" },
+    { "name": "nome", "type": "string" }
+  ]
+}

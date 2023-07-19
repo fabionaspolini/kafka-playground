@@ -1,8 +1,12 @@
 ﻿using Confluent.Kafka;
+using Confluent.SchemaRegistry.Serdes;
+using Confluent.SchemaRegistry;
 using System.Diagnostics;
+using KafkaPlayground.Avros;
+using Confluent.Kafka.SyncOverAsync;
 
-Console.WriteLine(".:: Kafka Playground - Basic Consumer ::.");
-const string TopicName = "basic-playground";
+Console.WriteLine(".:: Kafka Playground - Avro Consumer ::.");
+const string TopicName = "avro-playground";
 
 var cancellationToken = new CancellationTokenSource();
 Console.CancelKeyPress += (_, e) =>
@@ -12,12 +16,17 @@ Console.CancelKeyPress += (_, e) =>
     cancellationToken.Cancel();
 };
 
+// Configurações singletons
+var schemaRegistryConfig = new SchemaRegistryConfig { Url = "http://localhost:8081" };
+
+using var schemaRegistry = new CachedSchemaRegistryClient(schemaRegistryConfig);
+var avroDeserializer = new AvroDeserializer<Pessoa>(schemaRegistry);
+
 // Iniciar consumidor
 Task.WaitAll(StartConsumerTask(1, cancellationToken.Token));
 //Task.WaitAll(StartConsumerTask(1, cancellationToken.Token), StartConsumerTask(2, cancellationToken.Token));
 
 Console.WriteLine("Fim");
-
 
 Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.Run(() =>
 {
@@ -36,25 +45,11 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
         HeartbeatIntervalMs = 3_000,
         SessionTimeoutMs = 10_000,
         MaxPollIntervalMs = 300_000,
-
-        // --- Testes para incrementar performance ao máximo - 1 milhão de msg/seg
-        //MaxPartitionFetchBytes = 10485760, // 10 mb
-        //FetchMinBytes = 10485760, // 10 mb
-        //FetchMaxBytes = 52428800,
-        //FetchWaitMaxMs = 3_000,
-
-        //QueuedMinMessages = 3_000_000,
-        //QueuedMaxMessagesKbytes = 2097151,
-
-        // -- Outras
-        //ReceiveMessageMaxBytes = 100000000,
-        //MessageMaxBytes = 10485760, // 10 mb
     };
-    //consumerConfig.Set("socket.blocking.max.ms", "1");
-    //consumerConfig.Set("max.poll.records", "10000"); // somente java
-    using var consumer = new ConsumerBuilder<int, string>(consumerConfig).Build();
+    using var consumer = new ConsumerBuilder<int, Pessoa>(consumerConfig)
+        .SetValueDeserializer(avroDeserializer.AsSyncOverAsync())
+        .Build();
     consumer.Subscribe(TopicName);
-    //consumer.Assign()
 
     var count = 0;
     var time = Stopwatch.StartNew();
@@ -63,17 +58,17 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
         try
         {
             var result = consumer.Consume(cancellationToken);
-            //Console.WriteLine($"[Task {index}] {result.Message.Key}: {result.Message.Value}");
+            //Console.WriteLine($"[Task {index}] {result.Message.Key}: {result.Message.Value.nome}");
             count++;
             if (count % 100_000 == 0)
             {
-                Console.WriteLine($"[Task {index}] Count: {count:N0} - {result.Message.Key}: {result.Message.Value}");
+                Console.WriteLine($"[Task {index}] Count: {count:N0} - {result.Message.Key}: {result.Message.Value.nome}");
                 //consumer.Commit(result);
             }
             if (count >= 10_000_000)
             {
                 time.Stop();
-                Console.WriteLine($"Concluído em {time.Elapsed}"); // 00:00:09.9888885
+                Console.WriteLine($"Concluído em {time.Elapsed}"); // 00:00:22.4117550
             }
         }
         catch (OperationCanceledException)
