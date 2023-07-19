@@ -2,7 +2,7 @@
 using System.Diagnostics;
 
 Console.WriteLine(".:: Kafka Playground - Basic Consumer ::.");
-const string TopicName = "simple-playground";
+const string TopicName = "basic-playground";
 
 var cancellationToken = new CancellationTokenSource();
 Console.CancelKeyPress += (_, e) =>

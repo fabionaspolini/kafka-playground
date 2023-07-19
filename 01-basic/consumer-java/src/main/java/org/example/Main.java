@@ -21,7 +21,7 @@ public class Main {
 
     //    static boolean ShutdownRequested = false;
     public static void main(String[] args) {
-        System.out.println(".:: Kafka Simple Playground - Java Consumer ::.");
+        System.out.println(".:: Kafka Playground - Basic Java Consumer ::.");
 
         Properties props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
@@ -43,7 +43,7 @@ public class Main {
         props.put(ConsumerConfig.FETCH_MAX_BYTES_CONFIG, "10485760"); // 10 mb
 
         final var consumer = new KafkaConsumer<Integer, String>(props);
-        consumer.subscribe(Collections.singletonList("simple-playground"));
+        consumer.subscribe(Collections.singletonList("basic-playground"));
 
         // get a reference to the current thread
         final Thread mainThread = Thread.currentThread();
