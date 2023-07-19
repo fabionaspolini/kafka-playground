@@ -3,7 +3,7 @@ using Confluent.Kafka.Admin;
 
 Console.WriteLine(".:: Kafka Playground - Basic Producer ::.");
 const string TopicName = "basic-playground";
-const int Messages = 10_000_000;
+const int Messages = 50_000_000;
 
 // Setup - Criar tópico se não existir
 var adminConfig = new AdminClientConfig

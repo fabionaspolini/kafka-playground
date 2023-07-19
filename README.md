@@ -1,5 +1,17 @@
 # Kafka Playground
 
+## Benchmark consumidores
+
+```txt
+.net basic                                      java basic
+10 milhões: Concluído em 00:00:10.9476809       10 milhões: Concluído em 00:00:03. Millis: 3.100
+50 milhões: Concluído em 00:00:42.3009102       50 milhões: Concluído em 00:00:14. Millis: 14.852
+
+.net avro                                       java avro
+10 milhões: Concluído em 00:00:21.0839030       10 milhões: Concluído em 00:00:09. Millis: 9.465
+50 milhões: Concluído em 00:01:34.9580854       50 milhões: Concluído em 00:00:38. Millis: 38.270
+```
+
 ## Avro
 
 - Schema Registry local server: http://localhost:8081/
@@ -12,8 +24,11 @@
 dotnet tool install --global Apache.Avro.Tools
 
 # Gerar classe de arquivo local
-avrogen -s ./resources/Pessoa.avsc . --namespace "playground.kafka:KafkaPlayground.Avros"
+avrogen -s ./Pessoa.avsc . --namespace "playground.kafka:playground.kafka"
 ```
+
+GET /subjects/{subject}/versions/{version}/referencedby
+GET /schemas/ids/{id}/versions
 
 ## Scripts
 

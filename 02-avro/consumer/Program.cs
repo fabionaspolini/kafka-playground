@@ -2,8 +2,8 @@
 using Confluent.SchemaRegistry.Serdes;
 using Confluent.SchemaRegistry;
 using System.Diagnostics;
-using KafkaPlayground.Avros;
 using Confluent.Kafka.SyncOverAsync;
+using playground.kafka;
 
 Console.WriteLine(".:: Kafka Playground - Avro Consumer ::.");
 const string TopicName = "avro-playground";
@@ -45,6 +45,15 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
         HeartbeatIntervalMs = 3_000,
         SessionTimeoutMs = 10_000,
         MaxPollIntervalMs = 300_000,
+
+        // --- Testes para incrementar performance ao máximo - 1 milhão de msg/seg
+        //MaxPartitionFetchBytes = 10485760, // 10 mb
+        //FetchMinBytes = 10485760, // 10 mb
+        //FetchMaxBytes = 52428800,
+        //FetchWaitMaxMs = 3_000,
+
+        //QueuedMinMessages = 3_000_000,
+        //QueuedMaxMessagesKbytes = 2097151,
     };
     using var consumer = new ConsumerBuilder<int, Pessoa>(consumerConfig)
         .SetValueDeserializer(avroDeserializer.AsSyncOverAsync())
@@ -65,10 +74,18 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
                 Console.WriteLine($"[Task {index}] Count: {count:N0} - {result.Message.Key}: {result.Message.Value.nome}");
                 //consumer.Commit(result);
             }
-            if (count >= 10_000_000)
+            if (count >= 50_000_000)
             {
                 time.Stop();
-                Console.WriteLine($"Concluído em {time.Elapsed}"); // 00:00:22.4117550
+
+                // Sem incremento de performance
+                // 10 milhões: Concluído em 00:00:21.8974886
+                // 50 milhões: Concluído em 00:01:43.1019030
+
+                // Com incremento de performance
+                // 10 milhões: Concluído em 00:00:21.0839030
+                // 50 milhões: Concluído em 00:01:34.9580854
+                Console.WriteLine($"Concluído em {time.Elapsed}");
             }
         }
         catch (OperationCanceledException)

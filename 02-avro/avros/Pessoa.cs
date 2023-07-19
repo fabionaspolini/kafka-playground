@@ -5,7 +5,7 @@
 //    is regenerated
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace KafkaPlayground.Avros
+namespace playground.kafka
 {
 	using System;
 	using System.Collections.Generic;
@@ -16,8 +16,8 @@ namespace KafkaPlayground.Avros
 	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("avrogen", "1.11.2")]
 	public partial class Pessoa : global::Avro.Specific.ISpecificRecord
 	{
-		public static global::Avro.Schema _SCHEMA = global::Avro.Schema.Parse("{\"type\":\"record\",\"name\":\"Pessoa\",\"namespace\":\"KafkaPlayground.Avros\",\"fields\":[{\"" +
-				"name\":\"id\",\"type\":\"string\"},{\"name\":\"nome\",\"type\":\"string\"}]}");
+		public static global::Avro.Schema _SCHEMA = global::Avro.Schema.Parse("{\"type\":\"record\",\"name\":\"Pessoa\",\"namespace\":\"playground.kafka\",\"fields\":[{\"name\"" +
+				":\"id\",\"type\":\"string\"},{\"name\":\"nome\",\"type\":\"string\"}]}");
 		private string _id;
 		private string _nome;
 		public virtual global::Avro.Schema Schema

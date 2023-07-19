@@ -3,11 +3,11 @@ using Confluent.Kafka.Admin;
 using Confluent.Kafka.SyncOverAsync;
 using Confluent.SchemaRegistry;
 using Confluent.SchemaRegistry.Serdes;
-using KafkaPlayground.Avros;
+using playground.kafka;
 
 Console.WriteLine(".:: Kafka Playground - Avro Producer ::.");
 const string TopicName = "avro-playground";
-const int Messages = 10_000_000;
+const int Messages = 50_000_000;
 
 // Setup - Criar tópico se não existir
 var adminConfig = new AdminClientConfig

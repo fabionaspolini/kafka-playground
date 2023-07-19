@@ -1,11 +1,16 @@
 package org.example;
 
+import io.confluent.kafka.serializers.KafkaAvroDeserializer;
+
+import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
+import org.apache.avro.generic.GenericRecord;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.errors.WakeupException;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import playground.kafka.Pessoa;
 
 import java.text.NumberFormat;
 import java.time.Duration;
@@ -21,7 +26,7 @@ public class Main {
 
     //    static boolean ShutdownRequested = false;
     public static void main(String[] args) {
-        System.out.println(".:: Kafka Playground - Basic Java Consumer ::.");
+        System.out.println(".:: Kafka Playground - Avro Java Consumer ::.");
 
         Properties props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
@@ -29,7 +34,11 @@ public class Main {
         props.put(ConsumerConfig.GROUP_INSTANCE_ID_CONFIG, "1");
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class);
+        props.put(KafkaAvroDeserializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
+        props.put(KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG, "true");
+//        props.put("schema.registry.url", "http://localhost:8081");
+//        props.put("specific.avro.reader", "true");
 
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
         props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "5000");
@@ -37,13 +46,13 @@ public class Main {
         props.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, "3000");
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "10000");
         props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, "300000"); // Tempo máximo para processar mensagens recebidas. Se ultrapassar, será feito rebalance
-        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "10000"); // Quantidade de registros para consultar por pacote
+        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "10000"); // Quantidade de registros para buscar por pacote
 
         props.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, "10485760"); // 10 mb
         props.put(ConsumerConfig.FETCH_MAX_BYTES_CONFIG, "10485760"); // 10 mb
 
-        final var consumer = new KafkaConsumer<Integer, String>(props);
-        consumer.subscribe(Collections.singletonList("basic-playground"));
+        final var consumer = new KafkaConsumer<Integer, Pessoa>(props);
+        consumer.subscribe(Collections.singletonList("avro-playground"));
 
         // get a reference to the current thread
         final Thread mainThread = Thread.currentThread();
@@ -70,9 +79,9 @@ public class Main {
             while (true) {
                 var records = consumer.poll(100);
                 if (records.count() > 0) {
-                    /*for (var result : records) {
-                        System.out.println(result.key() + ": " + result.value());
-                    }*/
+//                    for (var result : records) {
+//                        System.out.println(result.key() + ": " + result.value().getNome());
+//                    }
                     final var itr = records.iterator();
                     var last = itr.next();
                     while (itr.hasNext()) {
@@ -80,8 +89,7 @@ public class Main {
                     }
 
                     count += records.count();
-                    System.out.println("Count: " + myFormat.format(count) + " - " + last.key() + ": " + last.value());
-
+                    System.out.println("Count: " + myFormat.format(count) + " - " + last.key() + ": " + last.value().getNome());
 //                    Thread.sleep(1000);
                     consumer.commitAsync();
 
@@ -92,8 +100,8 @@ public class Main {
                                 TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
                                 TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
 
-                        // 10 milhões: Concluído em 00:00:03. Millis: 3.100
-                        // 50 milhões: Concluído em 00:00:14. Millis: 14.852
+                        // 10 milhões: Concluído em 00:00:09. Millis: 9.465
+                        // 50 milhões: Concluído em 00:00:38. Millis: 38.270
                         System.out.println("Concluído em " + hms + ". Millis: " + myFormat.format(millis));
                     }
                 }

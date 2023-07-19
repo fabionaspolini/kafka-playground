@@ -38,15 +38,16 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
         MaxPollIntervalMs = 300_000,
 
         // --- Testes para incrementar performance ao máximo - 1 milhão de msg/seg
-        //MaxPartitionFetchBytes = 10485760, // 10 mb
-        //FetchMinBytes = 10485760, // 10 mb
-        //FetchMaxBytes = 52428800,
-        //FetchWaitMaxMs = 3_000,
+        MaxPartitionFetchBytes = 10485760, // 10 mb
+        FetchMinBytes = 10485760, // 10 mb
+        FetchMaxBytes = 52428800,
+        FetchWaitMaxMs = 3_000,
 
-        //QueuedMinMessages = 3_000_000,
-        //QueuedMaxMessagesKbytes = 2097151,
+        QueuedMinMessages = 3_000_000,
+        QueuedMaxMessagesKbytes = 2097151,
 
         // -- Outras
+        //EnablePartitionEof = true,
         //ReceiveMessageMaxBytes = 100000000,
         //MessageMaxBytes = 10485760, // 10 mb
     };
@@ -70,10 +71,14 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
                 Console.WriteLine($"[Task {index}] Count: {count:N0} - {result.Message.Key}: {result.Message.Value}");
                 //consumer.Commit(result);
             }
-            if (count >= 10_000_000)
+            if (count >= 50_000_000)
+            //if (result.IsPartitionEOF)
             {
                 time.Stop();
-                Console.WriteLine($"Concluído em {time.Elapsed}"); // 00:00:09.9888885
+
+                // 10 milhões: Concluído em 00:00:10.9476809
+                // 50 milhões: Concluído em 00:00:42.3009102
+                Console.WriteLine($"Concluído em {time.Elapsed}");
             }
         }
         catch (OperationCanceledException)
