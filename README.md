@@ -1,5 +1,15 @@
 # Kafka Playground
 
+- [Benchmark consumidores](#benchmark-consumidores)
+- [Avro](#avro)
+- [Schema registry](#schema-registry)
+- [Scripts](#scripts)
+	- [Producers](#producers)
+	- [Consumers](#consumers)
+	- [Excluir consumer groups](#excluir-consumer-groups)
+	- [Excluir tópicos](#excluir-tópicos)
+	- [Clean up policy: Compact](#clean-up-policy-compact)
+
 ## Benchmark consumidores
 
 ```txt
@@ -54,7 +64,7 @@ http://localhost:8081/subjects/playground.kafka.Pessoa/versions/1
 
 ## Scripts
 
-#### Producers
+### Producers
 
 ```bash
 kafka-console-producer.sh --bootstrap-server localhost:9092 --topic kafka-flow-playground \
@@ -62,7 +72,7 @@ kafka-console-producer.sh --bootstrap-server localhost:9092 --topic kafka-flow-p
 	--property key.separator=:
 ```
 
-#### Consumers
+### Consumers
 
 ```bash
 kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic kafka-flow-playground \
@@ -70,17 +80,42 @@ kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic kafka-flow-p
 	--property print.key=true
 ```
 
-#### Excluir consumer groups
+### Excluir consumer groups
 
 ```bash
 kafka-consumer-groups.sh --bootstrap-server localhost:9092 --delete --group dotnet-playground & \
 kafka-consumer-groups.sh --bootstrap-server localhost:9092 --delete --group java-playground
 ```
 
-#### Excluir tópicos
+### Excluir tópicos
 
 ```
 kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic basic-playground
 kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic avro-playground
 kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic kafka-flow-playground
+```
+
+### Clean up policy: Compact
+
+```bash
+# criar - exclusão rápida com configurações agressivas.
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic cadastros \
+	--config cleanup.policy=compact \
+	--config delete.retention.ms=100 \
+	--config segment.ms=100 \
+	--config min.cleanable.dirty.ratio=0.01
+
+# produzir dados no formato "key:value"
+bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic cadastros \
+	--property parse.key=true \
+	--property key.separator=:
+
+# consumer
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic cadastros \
+	--from-beginning \
+	--property print.key=true \
+	--timeout-ms 1000
+
+# excluir
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic cadastros
 ```
