@@ -12,6 +12,7 @@ Console.WriteLine(".:: Kafka Playground - Without Consumer Group (Consumer) ::."
 
 // .NET NÃO SUPORTA RECURSO!!!
 // Library .net é um wrapper da library "librdkafka" e ela não suporta consumo sem group.id
+// https://github.com/confluentinc/confluent-kafka-dotnet/issues/1697
 
 const string TopicName = "without-consumer-group-playground";
 
@@ -36,8 +37,8 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
     var consumerConfig = new ConsumerConfig()
     {
         BootstrapServers = "localhost:9092",
-        GroupId = "dotnet-playground",
-        GroupInstanceId = index.ToString(), // Para evitar rebalancing. Se consumidor reconectar com mesmo Id, será atribuida a mesma partição sem esperar o tempo de expiração da sessão
+        //GroupId = null, // "dotnet-playground",
+        //GroupInstanceId = null, // index.ToString(), // Para evitar rebalancing. Se consumidor reconectar com mesmo Id, será atribuida a mesma partição sem esperar o tempo de expiração da sessão
         ClientId = "dotnet-playground",
         AutoOffsetReset = AutoOffsetReset.Earliest,
         PartitionAssignmentStrategy = null,
@@ -65,8 +66,12 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
         //MessageMaxBytes = 10485760, // 10 mb
     };
     using var consumer = new ConsumerBuilder<int, string>(consumerConfig).Build();
-    consumer.Subscribe(TopicName);
-    //consumer.Assign()
+    //consumer.Subscribe(TopicName);
+
+    var partitions = new List<TopicPartition>();
+    for (int i = 0; i < 5; i++)
+        partitions.Add(new TopicPartition(TopicName, i));
+    consumer.Assign(partitions);
 
     var count = 0;
     while (!cancellationToken.IsCancellationRequested)

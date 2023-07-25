@@ -1,5 +1,6 @@
 # Kafka Playground
 
+- [Visão geral](#visão-geral)
 - [Benchmark consumidores](#benchmark-consumidores)
 - [Avro](#avro)
 - [Schema registry](#schema-registry)
@@ -9,6 +10,10 @@
 	- [Excluir consumer groups](#excluir-consumer-groups)
 	- [Excluir tópicos](#excluir-tópicos)
 	- [Clean up policy: Compact](#clean-up-policy-compact)
+
+## Visão geral
+
+- Commit informando offset é sincrono
 
 ## Benchmark consumidores
 

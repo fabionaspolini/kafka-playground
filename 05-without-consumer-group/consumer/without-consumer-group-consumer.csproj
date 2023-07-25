@@ -10,10 +10,6 @@
     <RootNamespace>KafkaWithoutConsumerGroupConsumerPlayground</RootNamespace>
   </PropertyGroup>
 
-  <!--<ItemGroup>
-    <ProjectReference Include="..\..\..\..\open-source\confluent-kafka-dotnet\src\Confluent.Kafka\Confluent.Kafka.csproj" />
-  </ItemGroup>-->
-
   <ItemGroup>
     <PackageReference Include="Confluent.Kafka" Version="2.2.0" />
   </ItemGroup>
