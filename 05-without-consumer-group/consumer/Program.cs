@@ -13,6 +13,7 @@ Console.WriteLine(".:: Kafka Playground - Without Consumer Group (Consumer) ::."
 // .NET NÃO SUPORTA RECURSO!!!
 // Library .net é um wrapper da library "librdkafka" e ela não suporta consumo sem group.id
 // https://github.com/confluentinc/confluent-kafka-dotnet/issues/1697
+// https://github.com/confluentinc/librdkafka/issues/3261
 
 const string TopicName = "without-consumer-group-playground";
 
@@ -66,7 +67,6 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
         //MessageMaxBytes = 10485760, // 10 mb
     };
     using var consumer = new ConsumerBuilder<int, string>(consumerConfig).Build();
-    //consumer.Subscribe(TopicName);
 
     var partitions = new List<TopicPartition>();
     for (int i = 0; i < 5; i++)
