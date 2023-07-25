@@ -47,12 +47,11 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
         QueuedMaxMessagesKbytes = 2097151,
 
         // -- Outras
-        //EnablePartitionEof = true,
+        //EnablePartitionEof = true, // Consumidor pode verificar "result.IsPartitionEOF" para saber que partição chegou ao fim. Não é o tópico que chegou no fim, apenas a partição
         //ReceiveMessageMaxBytes = 100000000,
         //MessageMaxBytes = 10485760, // 10 mb
     };
-    //consumerConfig.Set("socket.blocking.max.ms", "1");
-    //consumerConfig.Set("max.poll.records", "10000"); // somente java
+
     using var consumer = new ConsumerBuilder<int, string>(consumerConfig).Build();
     consumer.Subscribe(TopicName);
     //consumer.Assign()
@@ -69,9 +68,9 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
             if (count % 100_000 == 0)
             {
                 Console.WriteLine($"[Task {index}] Count: {count:N0} - {result.Message.Key}: {result.Message.Value}");
-                //consumer.Commit(result);
+                //consumer.Commit(result); // Auto commit habilitado. Analise os possíveis casos de exceptions no seu caso de uso para decidir sobre isso!
             }
-            if (count >= 50_000_000)
+            if (count >= 10_000_000)
             //if (result.IsPartitionEOF)
             {
                 time.Stop();

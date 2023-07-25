@@ -72,9 +72,9 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
             if (count % 100_000 == 0)
             {
                 Console.WriteLine($"[Task {index}] Count: {count:N0} - {result.Message.Key}: {result.Message.Value.nome}");
-                //consumer.Commit(result);
+                //consumer.Commit(result); // Auto commit habilitado. Analise os possíveis casos de exceptions no seu caso de uso para decidir sobre isso!
             }
-            if (count >= 50_000_000)
+            if (count >= 10_000_000)
             {
                 time.Stop();
 
