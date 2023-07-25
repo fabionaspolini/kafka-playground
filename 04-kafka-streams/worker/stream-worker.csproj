@@ -6,6 +6,7 @@
     <RootNamespace>streams_sample</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>KafkaStreamsWorkerPlayground</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
