@@ -2,6 +2,17 @@
 
 Console.WriteLine(".:: Kafka Playground - Without Consumer Group (Consumer) ::.");
 
+// Configurações:
+// 1. Consumer não deve ter group id e não será utilizado o método de "subscribe"
+// 2. Não realizar subscribe do consumer no tópico
+// 3. Realizar assignment manual no tópico/partição
+// 4. Auto commit deve estar desabilitado
+// Pontos de atenção:
+// - Sem consumer group não há lag para observabilidade pelo broker e você precisará ter mecanismos a parte para ter visão de atrasos
+
+// .NET NÃO SUPORTA RECURSO!!!
+// Library .net é um wrapper da library "librdkafka" e ela não suporta consumo sem group.id
+
 const string TopicName = "without-consumer-group-playground";
 
 var cancellationToken = new CancellationTokenSource();
@@ -21,6 +32,7 @@ Console.WriteLine("Fim");
 
 Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.Run(() =>
 {
+
     var consumerConfig = new ConsumerConfig()
     {
         BootstrapServers = "localhost:9092",
@@ -30,7 +42,7 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
         AutoOffsetReset = AutoOffsetReset.Earliest,
         PartitionAssignmentStrategy = null,
 
-        EnableAutoCommit = null,
+        EnableAutoCommit = false, // Sem auto commit
         EnableAutoOffsetStore = false,
         AutoCommitIntervalMs = null,
 
@@ -71,4 +83,6 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
             consumer.Close();
         }
     }
+
+    Console.WriteLine($"{count:N0} mensagens processadas");
 });

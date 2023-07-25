@@ -28,7 +28,8 @@ public class Main {
         // Configurações:
         // 1. Consumer não deve ter group id e não será utilizado o método de "subscribe"
         // 2. Não realizar subscribe do consumer no tópico
-        // 3. Realizar assinment manual no tópico/partição
+        // 3. Realizar assignment manual no tópico/partição
+        // 4. Auto commit deve estar desabilitado
         // Pontos de atenção:
         // - Sem consumer group não há lag para observabilidade pelo broker e você precisará ter mecanismos a parte para ter visão de atrasos
 
