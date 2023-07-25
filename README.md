@@ -99,23 +99,31 @@ kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic kafka-flow-pl
 
 ```bash
 # criar - exclusão rápida com configurações agressivas.
-bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic cadastros \
+kafka-topics.sh --bootstrap-server localhost:9092 --create --topic cadastros \
 	--config cleanup.policy=compact \
-	--config delete.retention.ms=100 \
 	--config segment.ms=100 \
 	--config min.cleanable.dirty.ratio=0.01
 
 # produzir dados no formato "key:value"
-bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic cadastros \
+kafka-console-producer.sh --bootstrap-server localhost:9092 --topic cadastros \
 	--property parse.key=true \
 	--property key.separator=:
 
 # consumer
-bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic cadastros \
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic cadastros \
 	--from-beginning \
 	--property print.key=true \
 	--timeout-ms 1000
 
 # excluir
-bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic cadastros
+kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic cadastros
+```
+
+Consumer para exemplo "05 without-consumer-group"
+
+```
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic without-consumer-group-playground \
+	--from-beginning \
+	--property print.key=true \
+	--timeout-ms 1000
 ```

@@ -1,9 +1,9 @@
 ﻿using Confluent.Kafka;
 using Confluent.Kafka.Admin;
 
-Console.WriteLine(".:: Kafka Playground - Basic Producer ::.");
-const string TopicName = "basic-playground";
-const int Messages = 50_000_000;
+Console.WriteLine(".:: Kafka Playground - Without Consumer Group Producer ::.");
+const string TopicName = "without-consumer-group-playground";
+const int Messages = 100;
 
 // Setup - Criar tópico se não existir
 var adminConfig = new AdminClientConfig
@@ -20,7 +20,13 @@ if (!topicMetadata.Topics.Any(x => x.Error.Code == ErrorCode.NoError && x.Topic 
         new TopicSpecification
         {
             Name = TopicName,
-            NumPartitions = 10
+            NumPartitions = 5,
+            Configs = new()
+            {
+                { "cleanup.policy", "compact" },
+                { "segment.ms", "100" },
+                { "min.cleanable.dirty.ratio", "0.01" },
+            }
         }
     });
 
@@ -35,12 +41,14 @@ using var producer = new ProducerBuilder<int, string>(producerConfig).Build();
 
 for (int i = 1; i <= Messages; i++)
 {
-    producer.Produce(TopicName, new Message<int, string> { Key = i, Value = $"Msg {i}" });
-    if (i % producerConfig.QueueBufferingMaxMessages == 0)
+    producer.Produce(TopicName, new Message<int, string> { Key = i, Value = $"Msg {i} - {DateTime.Now:O}" });
+    //if (i % producerConfig.QueueBufferingMaxMessages == 0)
     {
         Console.WriteLine($"Flushing {i:N0}...");
         producer.Flush();
     }
+
+    Thread.Sleep(150); // Para ser maior que o tempo de vida do segmento e forçar que mais mensagens fiquem elegíveis a compactação no teste
 }
 
 producer.Flush();

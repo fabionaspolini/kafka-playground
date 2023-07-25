@@ -33,6 +33,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "avros", "avros", "{5A26658D
 		02-avro\avros\Pessoa.avsc = 02-avro\avros\Pessoa.avsc
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Confluent.Kafka", "..\..\open-source\confluent-kafka-dotnet\src\Confluent.Kafka\Confluent.Kafka.csproj", "{949B68DA-0D34-4024-A885-F97E1767F2C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05-without-consumer-group", "05-without-consumer-group", "{4172AC6D-4E8C-4EE7-853C-C3624F0CC874}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "without-consumer-group-producer", "05-without-consumer-group\producer\without-consumer-group-producer.csproj", "{5C6FC648-B331-44B3-B10A-03E731418229}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "without-consumer-group-consumer", "05-without-consumer-group\consumer\without-consumer-group-consumer.csproj", "{A6717D47-C222-4767-B047-2E0E567B544E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +71,18 @@ Global
 		{78EA79B2-EBF7-4AA3-97FF-1AFCCA12980B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78EA79B2-EBF7-4AA3-97FF-1AFCCA12980B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78EA79B2-EBF7-4AA3-97FF-1AFCCA12980B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{949B68DA-0D34-4024-A885-F97E1767F2C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{949B68DA-0D34-4024-A885-F97E1767F2C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{949B68DA-0D34-4024-A885-F97E1767F2C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{949B68DA-0D34-4024-A885-F97E1767F2C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C6FC648-B331-44B3-B10A-03E731418229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C6FC648-B331-44B3-B10A-03E731418229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C6FC648-B331-44B3-B10A-03E731418229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C6FC648-B331-44B3-B10A-03E731418229}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6717D47-C222-4767-B047-2E0E567B544E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6717D47-C222-4767-B047-2E0E567B544E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6717D47-C222-4767-B047-2E0E567B544E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6717D47-C222-4767-B047-2E0E567B544E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +95,8 @@ Global
 		{A6034386-D2F3-4CB4-9B33-4EAACFD18355} = {F9A2224E-7275-46CC-B205-EB6E8A359F81}
 		{78EA79B2-EBF7-4AA3-97FF-1AFCCA12980B} = {F9A2224E-7275-46CC-B205-EB6E8A359F81}
 		{5A26658D-1207-44A6-9609-0B326205B63C} = {F9A2224E-7275-46CC-B205-EB6E8A359F81}
+		{5C6FC648-B331-44B3-B10A-03E731418229} = {4172AC6D-4E8C-4EE7-853C-C3624F0CC874}
+		{A6717D47-C222-4767-B047-2E0E567B544E} = {4172AC6D-4E8C-4EE7-853C-C3624F0CC874}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2BE20869-C639-4511-9685-26812E78F1FC}
