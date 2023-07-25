@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using KafkaFlow.Serializer;
 
 Console.WriteLine(".:: Kafka Playground - Kafka Flow Consumer ::.");
+
 const string TopicName = "kafka-flow-playground";
 
 //var cancellationToken = new CancellationTokenSource();

@@ -6,6 +6,7 @@ using Confluent.SchemaRegistry.Serdes;
 using playground.kafka;
 
 Console.WriteLine(".:: Kafka Playground - Avro Producer ::.");
+
 const string TopicName = "avro-playground";
 const int Messages = 10_000_000;
 

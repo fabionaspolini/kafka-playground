@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
 Console.WriteLine(".:: Kafka Playground - Kafka Flow Producer ::.");
+
 const string TopicName = "kafka-flow-playground";
 const int Messages = 1_000;
 

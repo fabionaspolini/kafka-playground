@@ -12,8 +12,8 @@ var adminConfig = new AdminClientConfig
     BootstrapServers = "localhost:9092"
 };
 using var admin = new AdminClientBuilder(adminConfig).Build();
-await admin.DeleteTopicsAsync(new[] { TopicName });
-Thread.Sleep(2000);
+//await admin.DeleteTopicsAsync(new[] { TopicName });
+//Thread.Sleep(2000);
 var topicMetadata = admin.GetMetadata(TimeSpan.FromSeconds(10));
 if (!topicMetadata.Topics.Any(x => x.Error.Code == ErrorCode.NoError && x.Topic == TopicName))
     await admin.CreateTopicsAsync(new[]

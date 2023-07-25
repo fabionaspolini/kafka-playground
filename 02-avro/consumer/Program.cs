@@ -6,6 +6,7 @@ using Confluent.Kafka.SyncOverAsync;
 using playground.kafka;
 
 Console.WriteLine(".:: Kafka Playground - Avro Consumer ::.");
+
 const string TopicName = "avro-playground";
 
 var cancellationToken = new CancellationTokenSource();
