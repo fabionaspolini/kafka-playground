@@ -3,7 +3,7 @@ using Confluent.Kafka.Admin;
 
 Console.WriteLine(".:: Kafka Playground - Basic Producer ::.");
 const string TopicName = "basic-playground";
-const int Messages = 50_000_000;
+const int Messages = 10_000_000;
 
 // Setup - Criar tópico se não existir
 var adminConfig = new AdminClientConfig
@@ -11,8 +11,8 @@ var adminConfig = new AdminClientConfig
     BootstrapServers = "localhost:9092"
 };
 using var admin = new AdminClientBuilder(adminConfig).Build();
-//await admin.DeleteTopicsAsync(new[] { TopicName });
-//Thread.Sleep(2000);
+await admin.DeleteTopicsAsync(new[] { TopicName });
+Thread.Sleep(2000);
 var topicMetadata = admin.GetMetadata(TimeSpan.FromSeconds(10));
 if (!topicMetadata.Topics.Any(x => x.Error.Code == ErrorCode.NoError && x.Topic == TopicName))
     await admin.CreateTopicsAsync(new[]
@@ -44,4 +44,4 @@ for (int i = 1; i <= Messages; i++)
 }
 
 producer.Flush();
-Console.WriteLine($"Fim - {Messages} mensagens publicadas");
+Console.WriteLine($"Fim - {Messages:N0} mensagens publicadas");

@@ -7,7 +7,7 @@ using playground.kafka;
 
 Console.WriteLine(".:: Kafka Playground - Avro Producer ::.");
 const string TopicName = "avro-playground";
-const int Messages = 50_000_000;
+const int Messages = 10_000_000;
 
 // Setup - Criar tópico se não existir
 var adminConfig = new AdminClientConfig
@@ -66,4 +66,4 @@ for (int i = 1; i <= Messages; i++)
 }
 
 producer.Flush();
-Console.WriteLine("Fim");
+Console.WriteLine($"Fim - {Messages:N0} mensagens publicadas");

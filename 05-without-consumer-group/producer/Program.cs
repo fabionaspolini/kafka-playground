@@ -1,7 +1,8 @@
 ﻿using Confluent.Kafka;
 using Confluent.Kafka.Admin;
 
-Console.WriteLine(".:: Kafka Playground - Without Consumer Group Producer ::.");
+Console.WriteLine(".:: Kafka Playground - Without Consumer Group (Producer) ::.");
+
 const string TopicName = "without-consumer-group-playground";
 const int Messages = 100;
 

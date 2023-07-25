@@ -1,8 +1,8 @@
 ﻿using Confluent.Kafka;
-using System.Diagnostics;
 
-Console.WriteLine(".:: Kafka Playground - Basic Consumer Without Consumer Group ::.");
-const string TopicName = "basic-playground";
+Console.WriteLine(".:: Kafka Playground - Without Consumer Group (Consumer) ::.");
+
+const string TopicName = "without-consumer-group-playground";
 
 var cancellationToken = new CancellationTokenSource();
 Console.CancelKeyPress += (_, e) =>
@@ -24,7 +24,7 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
     var consumerConfig = new ConsumerConfig()
     {
         BootstrapServers = "localhost:9092",
-        GroupId = null, // "dotnet-playground",
+        GroupId = "dotnet-playground",
         GroupInstanceId = index.ToString(), // Para evitar rebalancing. Se consumidor reconectar com mesmo Id, será atribuida a mesma partição sem esperar o tempo de expiração da sessão
         ClientId = "dotnet-playground",
         AutoOffsetReset = AutoOffsetReset.Earliest,

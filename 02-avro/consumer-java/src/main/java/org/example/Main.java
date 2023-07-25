@@ -1,20 +1,14 @@
 package org.example;
 
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
-
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
-import org.apache.avro.generic.GenericRecord;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.errors.WakeupException;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
-import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.common.serialization.StringDeserializer;
 import playground.kafka.Pessoa;
 
 import java.text.NumberFormat;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Collections;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
 
-    //    static boolean ShutdownRequested = false;
     public static void main(String[] args) {
         System.out.println(".:: Kafka Playground - Avro Java Consumer ::.");
 
@@ -37,8 +30,6 @@ public class Main {
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class);
         props.put(KafkaAvroDeserializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
         props.put(KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG, "true");
-//        props.put("schema.registry.url", "http://localhost:8081");
-//        props.put("specific.avro.reader", "true");
 
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
         props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "5000");
@@ -72,6 +63,7 @@ public class Main {
             }
         });
 
+        var concluido = false;
         try {
             NumberFormat myFormat = NumberFormat.getInstance();
             var startTime = System.currentTimeMillis();
@@ -91,19 +83,18 @@ public class Main {
                     count += records.count();
                     System.out.println("Count: " + myFormat.format(count) + " - " + last.key() + ": " + last.value().getNome());
 //                    Thread.sleep(1000);
-                    consumer.commitAsync();
+//                    consumer.commitAsync(); // Auto commit habilitado. Analise os possíveis casos de exceptions no seu caso de uso para decidir sobre isso!
+                } else if (count >= 10_000_000 && !concluido) {
+                    var endTime = System.currentTimeMillis();
+                    long millis = endTime - startTime;
+                    String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+                            TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+                            TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
 
-                    if (count >= 50_000_000) {
-                        var endTime = System.currentTimeMillis();
-                        long millis = endTime - startTime;
-                        String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
-                                TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
-                                TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
-
-                        // 10 milhões: Concluído em 00:00:09. Millis: 9.465
-                        // 50 milhões: Concluído em 00:00:38. Millis: 38.270
-                        System.out.println("Concluído em " + hms + ". Millis: " + myFormat.format(millis));
-                    }
+                    // 10 milhões: Concluído em 00:00:09. Millis: 9.465
+                    // 50 milhões: Concluído em 00:00:38. Millis: 38.270
+                    System.out.println("Concluído em " + hms + ". Millis: " + myFormat.format(millis));
+                    concluido = true;
                 }
             }
         } catch (WakeupException e) {

@@ -4,7 +4,6 @@ import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.common.TopicCollection;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.errors.WakeupException;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
@@ -23,14 +22,15 @@ public class Main {
 
     private static final String TopicName = "without-consumer-group-playground";
 
-    //    static boolean ShutdownRequested = false;
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        System.out.println(".:: Kafka Playground - Basic Java Consumer Without Consumer Group ::.");
+        System.out.println(".:: Kafka Playground - Without Consumer Group (Consumer) - Java ::.");
 
         // Configurações:
-        // 1. Consumer não deve ser group id e não será utilizado o método de "subscribe"
+        // 1. Consumer não deve ter group id e não será utilizado o método de "subscribe"
         // 2. Não realizar subscribe do consumer no tópico
         // 3. Realizar assinment manual no tópico/partição
+        // Pontos de atenção:
+        // - Sem consumer group não há lag para observabilidade pelo broker e você precisará ter mecanismos a parte para ter visão de atrasos
 
         // AdminClient - Consumir tópico para obter quantidade de partições
         Properties adminProps = new Properties();
