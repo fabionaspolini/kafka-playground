@@ -1,19 +1,51 @@
 # Kafka Playground
 
 - [Visão geral](#visão-geral)
+- [Docker compose](#docker-compose)
 - [Benchmark consumidores](#benchmark-consumidores)
 - [Avro](#avro)
 - [Schema registry](#schema-registry)
+- [Kafka Configs](#kafka-configs)
+	- [Broker](#broker)
 - [Scripts](#scripts)
 	- [Producers](#producers)
 	- [Consumers](#consumers)
 	- [Excluir consumer groups](#excluir-consumer-groups)
 	- [Excluir tópicos](#excluir-tópicos)
+	- [Outros](#outros)
 	- [Clean up policy: Compact](#clean-up-policy-compact)
+- [Outros scripts para os exemplos de código](#outros-scripts-para-os-exemplos-de-código)
 
 ## Visão geral
 
+**Kafka**
+
+- [topic-configs](https://docs.confluent.io/platform/current/installation/configuration/topic-configs.html)
+- [consumer-configs](https://docs.confluent.io/platform/current/installation/configuration/consumer-configs.html)
+- [producer-configs](https://docs.confluent.io/platform/current/installation/configuration/producer-configs.html)
+
+**SDK .net**
+
 - Commit informando offset é sincrono
+- É um wrapper da library [librdkafka](https://github.com/confluentinc/librdkafka), assim como todas outras linguagens, exceto Java.
+- Não permite consumir tópico sem gerar o grupo consumidor (group.id).
+  - O projeto **librdkafka** não suporta a feature. Issue: https://github.com/confluentinc/librdkafka/issues/3261
+  - Issue do wrapper .net: https://github.com/confluentinc/confluent-kafka-dotnet/issues/1697
+
+
+## Docker compose
+
+Template para subir serviço local.
+
+Fonte: <https://github.com/confluentinc/cp-all-in-one>
+
+```bash
+# subir serviço
+docker compose up -d
+
+# remover serviço
+docker compose down
+```
 
 ## Benchmark consumidores
 
@@ -67,6 +99,12 @@ GET /schemas/ids/{id}/versions
 
 http://localhost:8081/subjects/playground.kafka.Pessoa/versions/1
 
+## Kafka Configs
+
+### Broker
+
+- `log.retention.check.interval.ms`: Frequência para verificar se algum log é elegível para exclusão. Default: 5 min (Exclusão ou compactação de acordo com cleanup.policy do tópico)
+
 ## Scripts
 
 ### Producers
@@ -94,16 +132,22 @@ kafka-consumer-groups.sh --bootstrap-server localhost:9092 --delete --group java
 
 ### Excluir tópicos
 
-```
+```bash
 kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic basic-playground
 kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic avro-playground
 kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic kafka-flow-playground
 ```
 
+### Outros
+
+```bash
+kafka-topics.sh --bootstrap-server localhost:9092 --topic topic1 --describe
+```
+
 ### Clean up policy: Compact
 
 ```bash
-# criar - exclusão rápida com configurações agressivas.
+# criar tópico - com politica de compactação (parâmetros agressivos para o teste).
 kafka-topics.sh --bootstrap-server localhost:9092 --create --topic cadastros \
 	--config cleanup.policy=compact \
 	--config segment.ms=100 \
@@ -124,9 +168,18 @@ kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic cadastros \
 kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic cadastros
 ```
 
-Consumer para exemplo "05 without-consumer-group"
+Tópico com configuração tradicional de exclusão para efeito de comparação.
 
+```bash
+kafka-topics.sh --bootstrap-server localhost:9092 --create --topic cadastros \
+	--config cleanup.policy=delete \
+	--config retention.ms=10000
 ```
+
+## Outros scripts para os exemplos de código
+
+```bash
+# consumer para exemplo "05 without-consumer-group"
 kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic without-consumer-group-playground \
 	--from-beginning \
 	--property print.key=true \
