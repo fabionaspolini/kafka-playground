@@ -34,9 +34,9 @@ Task StartConsumerTask(int index, CancellationToken cancellationToken) => Task.R
         EnableAutoCommit = true,
         AutoCommitIntervalMs = 5_000,
 
-        HeartbeatIntervalMs = 3_000,
-        SessionTimeoutMs = 10_000,
-        MaxPollIntervalMs = 300_000,
+        HeartbeatIntervalMs = 3_000, // Enviar sinal de vida a cada 3 segundos para o broker.
+        SessionTimeoutMs = 10_000, // Se o broker ficar 10 segundos sem receber sinal de vida, irá remover consumidor do grupo e rebalancer.
+        MaxPollIntervalMs = 300_000, // Tempo máximo entre chamadas do método "consume()", em outras palavras é o tempo para processar a mensagem. Caso exceder, o broker irá remover o consumidor do grupo e rebalancer a partição.
 
         // --- Testes para incrementar performance ao máximo - 1 milhão de msg/seg
         MaxPartitionFetchBytes = 10485760, // 10 mb
